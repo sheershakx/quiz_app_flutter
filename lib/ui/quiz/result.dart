@@ -21,7 +21,7 @@ class Result extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 18,
-          backgroundColor: Colors.lightBlue,
+          backgroundColor: submittedAnswer==actualAnswer? Colors.lightBlue : Colors.pinkAccent,
           child: Text(
             index.toString(),
             textAlign: TextAlign.center,
