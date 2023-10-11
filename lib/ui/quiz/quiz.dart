@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_projects/ui/quiz/quiz_result.dart';
 import 'package:flutter_projects/ui/quiz/quiz_home.dart';
 import 'package:flutter_projects/ui/quiz/quiz_questions.dart';
 
@@ -14,6 +15,7 @@ class Quiz extends StatefulWidget {
 
 class _Quiz extends State<Quiz> {
   Widget? selectedScreen;
+   List<String> selectedAnswers = [];
 
   @override
   void initState() {
@@ -21,9 +23,33 @@ class _Quiz extends State<Quiz> {
     super.initState();
   }
 
+  void saveAnswers(String answer) {
+    selectedAnswers.add(answer);
+  }
+
   void changeScreen() {
     setState(() {
-      selectedScreen = const QuizQuestions();
+      selectedScreen = QuizQuestions(
+        onAnswerSelected: saveAnswers,
+        onResultScreen: gotoResultScreen,
+      );
+    });
+  }
+
+  void gotoHomeScreen() {
+    setState(() {
+      selectedAnswers=[];
+      selectedScreen = QuizHome(changeScreen);
+    });
+  }
+
+  void gotoResultScreen() {
+    print("Submitted answers size= ${selectedAnswers.length}");
+    setState(() {
+      selectedScreen = QuizAnswers(
+        submittedAnswers: selectedAnswers,
+        onRestartQuiz: gotoHomeScreen,
+      );
     });
   }
 

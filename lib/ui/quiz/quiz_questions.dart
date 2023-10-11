@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_projects/data/quiz_questions.dart';
 import 'package:flutter_projects/ui/quiz/answers.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class QuizQuestions extends StatefulWidget {
-  const QuizQuestions({super.key});
+  const QuizQuestions(
+      {super.key,
+      required this.onAnswerSelected,
+      required this.onResultScreen});
+
+  final void Function(String answer) onAnswerSelected;
+  final void Function() onResultScreen;
 
   @override
   State<StatefulWidget> createState() {
@@ -14,12 +21,14 @@ class QuizQuestions extends StatefulWidget {
 class _QuizQuestionsState extends State<QuizQuestions> {
   var currentQuestionIndex = 0;
 
-  void submitAnswer() {
+  void submitAnswer(String answer) {
     setState(() {
       if (currentQuestionIndex < quizQuestions.length - 1) {
+        widget.onAnswerSelected(answer);
         currentQuestionIndex++;
       } else {
-        ///end of question list, display answers verification screen
+        widget.onAnswerSelected(answer);
+        widget.onResultScreen();
       }
     });
   }
@@ -36,14 +45,17 @@ class _QuizQuestionsState extends State<QuizQuestions> {
           Text(
             currentQuestion.question,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white, fontSize: 24,fontWeight: FontWeight.bold),
+            style: GoogleFonts.lato(
+                color: Colors.white.withAlpha(180),
+                fontSize: 24,
+                fontWeight: FontWeight.bold),
           ),
           const SizedBox(
             height: 30,
           ),
           ...currentQuestion.getShuffledAnswers().map(
                 (answer) => Answers(answer, () {
-                  submitAnswer();
+                  submitAnswer(answer);
                 }),
               ),
         ],

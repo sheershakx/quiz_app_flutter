@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Answers extends StatelessWidget {
   const Answers(this.answer, this.onTap, {super.key});
@@ -20,8 +21,9 @@ class Answers extends StatelessWidget {
       child: Text(
         answer,
         textAlign: TextAlign.center,
-        style: const TextStyle(color: Colors.white),
+        style: GoogleFonts.lato(color: Colors.white),
       ),
     );
   }
 }
+
